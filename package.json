@@ -1,0 +1,24 @@
+{
+  "name": "0calorie",
+  "version": "1.0.0",
+  "description": "countscalorie",
+  "homepage": "https://github.com/empty2145/calorieTelebot#readme",
+  "bugs": {
+    "url": "https://github.com/empty2145/calorieTelebot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/empty2145/calorieTelebot.git"
+  },
+  "license": "ISC",
+  "author": "empty2145",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.18.1",
+    "express": "^5.2.1"
+  }
+}
