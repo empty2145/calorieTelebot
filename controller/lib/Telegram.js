@@ -8,7 +8,8 @@ function sendMessage(messageObj, messageText) {
 }
 
 function handleMessage(messageObj) {
-    if (!messageObj.text) return;
+    if (!(messageObj.text || messageObj.photo)) return;
+    if (messageObj.photo) handlePhoto(messageObj);
     const messageText = messageObj.text;
 
     if (messageText.charAt(0) === "/") {
@@ -25,6 +26,10 @@ function handleMessage(messageObj) {
     } else {
         return sendMessage(messageObj, messageText);
     }
+}
+
+function handlePhoto(messageObj) {
+    
 }
 
 module.exports = { handleMessage };
