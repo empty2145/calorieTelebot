@@ -10,6 +10,10 @@ function sendMessage(messageObj, messageText) {
 function handleMessage(messageObj) {
     if (!(messageObj.text || messageObj.photo)) return;
     if (messageObj.photo) handlePhoto(messageObj);
+    if (messageObj.text) handleText(messageObj);
+}
+
+function handleText(messageObj) {
     const messageText = messageObj.text;
 
     if (messageText.charAt(0) === "/") {
@@ -27,6 +31,7 @@ function handleMessage(messageObj) {
         return sendMessage(messageObj, messageText);
     }
 }
+
 
 function handlePhoto(messageObj) {
     

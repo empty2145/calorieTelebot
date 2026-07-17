@@ -11,12 +11,7 @@ function getAxiosInstance() {
             })
         },
         post(url, data, config) {
-            return axios.post({
-                method: "post",
-                baseURL: BASE_URL,
-                url: `/${method}`,
-                data
-            })
+            return axios.post(`/${url}`, data, {baseURL: BASE_URL })
         }
     }
 }
