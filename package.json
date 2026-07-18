@@ -18,7 +18,7 @@
     "start": "node index.js",
     "dev": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy": "bash scripts/copier.sh"
+    "copy": "bash scripts/dependency-copier.sh"
   },
   "dependencies": {
     "axios": "^1.18.1",
