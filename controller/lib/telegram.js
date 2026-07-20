@@ -11,6 +11,9 @@ const axiosInstance = getAxiosInstance(BASE_URL);
 
 async function processThePhoto(messageObj) {
     if (messageObj.photo && messageObj.photo.length !== 0) {
+        // Send initial message to user
+        await sendMessage(messageObj.chat.id, "Analyzing your food image...");
+        
         //Taking the file id from the photo
         const fileId = messageObj.photo[messageObj.photo.length - 1].file_id;
         //Getting the file data using that file id
@@ -24,7 +27,6 @@ async function processThePhoto(messageObj) {
             const analysis = await analyzeImageWithGemini(file_public_path);
 
             // Send the analysis back to the user
-            await sendMessage(messageObj.chat.id, "Analyzing your food image...");
             await sendMessage(messageObj.chat.id, analysis);
         }
     }
@@ -47,7 +49,7 @@ function handleMessage(messageObj) {
 }
 
 function handleText(messageObj) {
-    const messageText = messageObj.text;
+    const messageText = messageObj.text || "";
 
     if (messageText.charAt(0) === "/") {
         const command = messageText.substr(1);
