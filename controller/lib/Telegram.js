@@ -1,4 +1,7 @@
+// lib/telegram.js
 const { axiosInstance} = require('./axios');
+const { errorHandler } = require("./helpers");
+const { analyzeImageWithGemini } = require("./llm");
 
 function sendMessage(messageObj, messageText) {
     return axiosInstance.post("sendMessage", {

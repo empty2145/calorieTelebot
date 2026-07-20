@@ -21,6 +21,7 @@
     "copy": "bash scripts/dependency-copier.sh"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "axios": "^1.18.1",
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
