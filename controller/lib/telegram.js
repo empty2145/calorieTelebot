@@ -10,7 +10,20 @@ const axiosInstance = getAxiosInstance(BASE_URL);
 // ... (keep existing functions)
 
 async function processThePhoto(messageObj) {
-    
+    if (messageObj.photo && messageObj.photo.length !== 0) {
+        //Taking the file id from the photo
+        const fileId = messageObj.photo[messageObj.photo.length - 1].file_id;
+        //Getting the file data using that file id
+        const fileData = await getFile(fileId);
+        if (fileData.data && fileData.data.result) {
+            const fileName = fileData.data.result.file_path;
+            // This is the public url, for the user sent photo we can use
+            const file_public_path = `https://api.telegram.org/file/bot${MY_TOKEN}/${fileName}`;
+
+            
+        }
+    }
+    return false;
 }
 
 
