@@ -1,4 +1,4 @@
-// lib/Telegram.js
+// lib/telegram.js
 const { axiosInstance} = require('./axios');
 
 function sendMessage(messageObj, messageText) {

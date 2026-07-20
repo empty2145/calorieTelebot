@@ -1,7 +1,19 @@
 // lib/telegram.js
-const { axiosInstance} = require('./axios');
+const { getAxiosInstance} = require('./axios');
 const { errorHandler } = require("./helpers");
 const { analyzeImageWithGemini } = require("./llm");
+
+const MY_TOKEN = process.env.MY_TOKEN
+const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
+const axiosInstance = getAxiosInstance(BASE_URL);
+
+// ... (keep existing functions)
+
+async function processThePhoto(messageObj) {
+    
+}
+
+
 
 function sendMessage(messageObj, messageText) {
     return axiosInstance.post("sendMessage", {
