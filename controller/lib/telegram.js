@@ -20,7 +20,12 @@ async function processThePhoto(messageObj) {
             // This is the public url, for the user sent photo we can use
             const file_public_path = `https://api.telegram.org/file/bot${MY_TOKEN}/${fileName}`;
 
-            
+            // Analyze the image using Gemini
+            const analysis = await analyzeImageWithGemini(file_public_path);
+
+            // Send the analysis back to the user
+            await sendMessage(messageObj.chat.id, "Analyzing your food image...");
+            await sendMessage(messageObj.chat.id, analysis);
         }
     }
     return false;
