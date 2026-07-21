@@ -12,8 +12,7 @@ async function analyzeImageWithGemini(imageUrl) {
         const imageData = await imageResponse.arrayBuffer();
 
         // Initialize the model
-        const model = genAI.getGenerativeModel({ model: "gemini-flash-vision"});
-
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         // Prepare the image data
         const imagePart = {
             inlineData: {
