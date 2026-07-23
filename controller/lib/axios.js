@@ -16,4 +16,4 @@ function getAxiosInstance() {
     }
 }
 
-module.exports = { getAxiosInstance: getAxiosInstance() };
+module.exports = { getAxiosInstance: getAxiosInstance };
