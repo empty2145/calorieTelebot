@@ -7,33 +7,9 @@ const MY_TOKEN = process.env.MY_TOKEN
 const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
 const axiosInstance = getAxiosInstance();
 
-// ... (keep existing functions)
-
-async function processThePhoto(messageObj) {
-    if (messageObj.photo && messageObj.photo.length !== 0) {
-        // Send initial message to user
-        await sendMessage(messageObj.chat.id, "Analyzing your food image...");
-        
-        //Taking the file id from the photo
-        const fileId = messageObj.photo[messageObj.photo.length - 1].file_id;
-        //Getting the file data using that file id
-        const fileData = await getFile(fileId);
-        if (fileData.data && fileData.data.result) {
-            const fileName = fileData.data.result.file_path;
-            // This is the public url, for the user sent photo we can use
-            const file_public_path = `https://api.telegram.org/file/bot${MY_TOKEN}/${fileName}`;
-
-            // Analyze the image using Gemini
-            const analysis = await analyzeImageWithGemini(file_public_path);
-
-            // Send the analysis back to the user
-            await sendMessage(messageObj.chat.id, analysis);
-        }
-    }
-    return false;
+function getFile(fileId) {
+    return axiosInstance.get("getFile", { file_id: fileId})
 }
-
-
 
 function sendMessage(messageObj, messageText) {
     return axiosInstance.post("sendMessage", {
@@ -67,9 +43,28 @@ function handleText(messageObj) {
     }
 }
 
+async function processThePhoto(messageObj) {
+    if (messageObj.photo && messageObj.photo.length !== 0) {
+        // Send initial message to user
+        await sendMessage(messageObj, "Analyzing your food image...");
+        
+        //Taking the file id from the photo
+        const fileId = messageObj.photo[messageObj.photo.length - 1].file_id;
+        //Getting the file data using that file id
+        const fileData = await getFile(fileId);
+        if (fileData.data && fileData.data.result) {
+            const fileName = fileData.data.result.file_path;
+            // This is the public url, for the user sent photo we can use
+            const file_public_path = `https://api.telegram.org/file/bot${MY_TOKEN}/${fileName}`;
 
-function handlePhoto(messageObj) {
-    
+            // Analyze the image using Gemini
+            const analysis = await analyzeImageWithGemini(file_public_path);
+
+            // Send the analysis back to the user
+            await sendMessage(messageObj.chat.id, analysis);
+        }
+    }
+    return false;
 }
 
 module.exports = { handleMessage };
