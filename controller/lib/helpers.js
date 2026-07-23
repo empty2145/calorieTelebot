@@ -11,8 +11,17 @@ function errorHandler(error, name, from) {
             loggerFunction(error.response.data);
             loggerFunction(error.response.status);
             loggerFunction(error.response.headers);
-        } else if (error.request)
+        } else if (error.request) {
+            loggerFunction(error.request);
+        } else {
+            logger("Error", error.message);
+        }
+        loggerFunction(error.toJSON)
+    } else {
+        loggerFunction(error);
     }
+
+    loggerFunction("------------END------------")
 }
 
 module.exports = {
