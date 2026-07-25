@@ -8,7 +8,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 async function analyzeImageWithGemini(imageUrl) {
     try {
         //Get the image data
-        const imageResponse = await fetch(ImageUrl());
+        const imageResponse = await fetch(imageUrl());
         const imageData = await imageResponse.arrayBuffer();
 
         // Initialize the model

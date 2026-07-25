@@ -61,7 +61,7 @@ async function processThePhoto(messageObj) {
             const analysis = await analyzeImageWithGemini(file_public_path);
 
             // Send the analysis back to the user
-            await sendMessage(messageObj.chat.id, analysis);
+            await sendMessage(messageObj, analysis);
         }
     }
     return false;
