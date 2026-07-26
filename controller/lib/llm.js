@@ -8,7 +8,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 async function analyzeImageWithGemini(imageUrl) {
     try {
         //Get the image data
-        const imageResponse = await fetch(imageUrl());
+        const imageResponse = await fetch(imageUrl);
         const imageData = await imageResponse.arrayBuffer();
 
         // Initialize the model
@@ -32,9 +32,9 @@ async function analyzeImageWithGemini(imageUrl) {
         Be as detailed and specific as possible in your description.`;
 
         // Generate content
-        const result = await model.generativeContent([prompt, imagePart]);
+        const result = await model.generateContent([prompt, imagePart]);
         const response = await result.response;
-        return response,text();
+        return response.text();
     } catch (error) {
         errorHandler(error, "analyzeImageWithGemini");
         return "Failed to analyze the image";
