@@ -20,7 +20,7 @@ function sendMessage(messageObj, messageText) {
 
 function handleMessage(messageObj) {
     if (!(messageObj.text || messageObj.photo)) return;
-    if (messageObj.photo) processThePhoto(messageObj);
+    if (messageObj.photo) await processThePhoto(messageObj);
     if (messageObj.text) handleText(messageObj);
 }
 
@@ -61,7 +61,11 @@ async function processThePhoto(messageObj) {
             const analysis = await analyzeImageWithGemini(file_public_path);
 
             // Send the analysis back to the user
-            await sendMessage(messageObj, analysis);
+            const conciseAnalysis = analysis.length > 700
+                ? analysis.slice(0,697) + "..."
+                : analysis;
+
+            await sendMessage(messageObj, conciseAnalysis);
         }
     }
     return false;

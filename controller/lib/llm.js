@@ -12,7 +12,13 @@ async function analyzeImageWithGemini(imageUrl) {
         const imageData = await imageResponse.arrayBuffer();
 
         // Initialize the model
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-flash",
+            generationConfig: {
+                maxOutputTokens: 120,
+                temperature: 0.2,
+            },
+        });
         // Prepare the image data
         const imagePart = {
             inlineData: {
@@ -22,14 +28,18 @@ async function analyzeImageWithGemini(imageUrl) {
         };
 
         // Prepare the prompt
-        const prompt = `Analyze this image and provide a detailed description of the food items present.
-        Include the following details for each food item:
-        - The name of the food
-        - Visible characteristics (color, texture, shape)
-        - Any discernible ingredients or preparation methods
-        - Estimate the portion size relative to other items in the image
-        
-        Be as detailed and specific as possible in your description.`;
+        const prompt = `Analyze this food image and reply concisely.
+        Format:
+        Estimated calories: <number or range> kcal
+        Items: <short comma-separated list>
+        Portions: <brief estimate>
+        Notes: <one short sentence if uncertain>
+
+        Rules:
+        - Maximum 4 lines.
+        - No detailed visual description.
+        - No markdown table.
+        - Keep it under 500 characters.`;
 
         // Generate content
         const result = await model.generateContent([prompt, imagePart]);
