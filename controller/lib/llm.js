@@ -77,6 +77,17 @@ async function classifyAndRefineFoods(initialAnalysis) {
 Format your response as a clear, detailed list focusing on accuracy and standardization.`
 
         // Generate content
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+
+        if (!response.text) {
+            throw new Error('Empty response from LLM');
+        }
+
+        return response.text();
+    } catch (error) {
+        errorHandler(error, "classifyAndRefineFoods");
+        return "Failed to classify and refine food items";
     }
 }
 
