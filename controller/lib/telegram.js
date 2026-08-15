@@ -45,27 +45,49 @@ function handleText(messageObj) {
 
 async function processThePhoto(messageObj) {
     if (messageObj.photo && messageObj.photo.length !== 0) {
-        // Send initial message to user
-        await sendMessage(messageObj, "Analyzing your food image...");
+        try {
+            // Send initial message to user
+            await sendMessage(messageObj, "Analyzing your food image...");
         
-        //Taking the file id from the photo
-        const fileId = messageObj.photo[messageObj.photo.length - 1].file_id;
-        //Getting the file data using that file id
-        const fileData = await getFile(fileId);
-        if (fileData.data && fileData.data.result) {
-            const fileName = fileData.data.result.file_path;
-            // This is the public url, for the user sent photo we can use
-            const file_public_path = `https://api.telegram.org/file/bot${MY_TOKEN}/${fileName}`;
+            //Taking the file id from the photo
+            const fileId = messageObj.photo[messageObj.photo.length - 1].file_id;
 
-            // Analyze the image using Gemini
-            const analysis = await analyzeImageWithGemini(file_public_path);
+            //Getting the file data using that file id
+            const fileData = await getFile(fileId);
 
-            // Send the analysis back to the user
-            const conciseAnalysis = analysis.length > 700
-                ? analysis.slice(0,697) + "..."
-                : analysis;
+            if (fileData.data && fileData.data.result) {
+                const fileName = fileData.data.result.file_path;
+                const file_public_path = `https://api.telegram.org/file/bot${MY_TOKEN}/${fileName}`;
 
-            await sendMessage(messageObj, conciseAnalysis);
+                // Step 1: Initial image analysis
+                await sendMessage(messageObj, "Step 1: Analyzing the image...");
+                const initialAnalysis = await analyzeImageWithGemini(file_public_path);
+
+                //Step 2: Classify and refine foods
+                await sendMessage(messageObj, "Step 2: Classifying and refining the foods...");
+                const refinedClassification = await classifyAndRefineFoods(initialAnalysis);
+
+                // Send the complete analysis back to to the user
+                awairt sendMessage(messageObj, "Here is the initial analysis of the image:\n\n" + initialAnalysis);
+                await sendMessage(messageObj, "Here is the refined classification of the foods:\n\n" + refinedClassification);
+
+                return true;
+
+                /*
+                // Analyze the image using Gemini
+                const analysis = await analyzeImageWithGemini(file_public_path);
+
+                // Send the analysis back to the user
+                const conciseAnalysis = analysis.length > 700
+                    ? analysis.slice(0,697) + "..."
+                    : analysis;
+
+                await sendMessage(messageObj, conciseAnalysis);*/
+            }
+        } catch (error) {
+            errorHandler(error, "processThePhoto");
+            await sendMessage(messageObj, "Failed to analyze the image. Please try again later.");
+            return false;
         }
     }
     return false;

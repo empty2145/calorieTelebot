@@ -87,10 +87,11 @@ Format your response as a clear, detailed list focusing on accuracy and standard
         return response.text();
     } catch (error) {
         errorHandler(error, "classifyAndRefineFoods");
-        return "Failed to classify and refine food items";
+        return "Failed to classify and refine the foods";
     }
 }
 
 module.exports = {
     analyzeImageWithGemini,
+    classifyAndRefineFoods
 };
