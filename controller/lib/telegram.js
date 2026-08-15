@@ -1,7 +1,7 @@
 // lib/telegram.js
 const { getAxiosInstance } = require('./axios');
 const { errorHandler } = require("./helpers");
-const { analyzeImageWithGemini } = require("./llm");
+const { analyzeImageWithGemini, classifyAndRefineFoods } = require("./llm");
 
 const MY_TOKEN = process.env.MY_TOKEN
 const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
@@ -68,7 +68,7 @@ async function processThePhoto(messageObj) {
                 const refinedClassification = await classifyAndRefineFoods(initialAnalysis);
 
                 // Send the complete analysis back to to the user
-                awairt sendMessage(messageObj, "Here is the initial analysis of the image:\n\n" + initialAnalysis);
+                await sendMessage(messageObj, "Here is the initial analysis of the image:\n\n" + initialAnalysis);
                 await sendMessage(messageObj, "Here is the refined classification of the foods:\n\n" + refinedClassification);
 
                 return true;

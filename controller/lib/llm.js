@@ -15,7 +15,7 @@ async function analyzeImageWithGemini(imageUrl) {
         const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash",
             generationConfig: {
-                maxOutputTokens: 3000,
+                maxOutputTokens: 8000,
                 temperature: 0.2,
             },
         });
