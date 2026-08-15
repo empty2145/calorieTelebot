@@ -15,7 +15,7 @@ async function analyzeImageWithGemini(imageUrl) {
         const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash",
             generationConfig: {
-                maxOutputTokens: 120,
+                maxOutputTokens: 3000,
                 temperature: 0.2,
             },
         });
@@ -44,10 +44,39 @@ async function analyzeImageWithGemini(imageUrl) {
         // Generate content
         const result = await model.generateContent([prompt, imagePart]);
         const response = await result.response;
+        console.log("Gemini response:", response);
         return response.text();
     } catch (error) {
         errorHandler(error, "analyzeImageWithGemini");
         return "Failed to analyze the image";
+    }
+}
+
+async function classifyAndRefineFoods(initialAnalysis) {
+    try {
+        if (!initialAnalysis || typeof initialAnalysis !== 'string') {
+            throw new Error("Invalid initial analysis input");
+        }
+
+        // Initialize the model (using regular Gemini Flash not Vision)
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+        // Prepare prompt
+        const prompt = `As a nutrition expert, analyze the following food description and provide a refined classification
+        
+        Input Description:
+    ${initialAnalysis}
+
+    Please:
+    1. Identify and list each distinct food item
+    2. Provide the precise, standardized name for each food item
+    3. Specify the standard unit of measurement for each item (e.g., grams, cups, pieces)
+    4. If there are any ambiguous items, suggest the most likely alternatives
+    5. Consider any visible preparation methods that might affect classification
+
+Format your response as a clear, detailed list focusing on accuracy and standardization.`
+
+        // Generate content
     }
 }
 

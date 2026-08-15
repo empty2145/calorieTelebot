@@ -18,7 +18,7 @@ function sendMessage(messageObj, messageText) {
     })
 }
 
-function handleMessage(messageObj) {
+async function handleMessage(messageObj) {
     if (!(messageObj.text || messageObj.photo)) return;
     if (messageObj.photo) await processThePhoto(messageObj);
     if (messageObj.text) handleText(messageObj);
