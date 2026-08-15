@@ -74,7 +74,7 @@ async function classifyAndRefineFoods(initialAnalysis) {
     4. If there are any ambiguous items, suggest the most likely alternatives
     5. Consider any visible preparation methods that might affect classification
 
-Format your response as a clear, detailed list focusing on accuracy and standardization.`
+    Format your response as a clear, detailed list focusing on accuracy and standardization.`
 
         // Generate content
         const result = await model.generateContent(prompt);
@@ -88,6 +88,32 @@ Format your response as a clear, detailed list focusing on accuracy and standard
     } catch (error) {
         errorHandler(error, "classifyAndRefineFoods");
         return "Failed to classify and refine the foods";
+    }
+}
+
+async function estimatePortionsAndNutrition(imageUrl, refinedClassification) {
+    try {
+        // Get the image data
+        const imageResponse = await fetch(imageUrl);
+        const imageData = await imageResponse.arrayBuffer();
+
+        // Initialise the model
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-flash",
+            generationConfig: {
+                maxOutputTokens: 10000,
+                temperature: 0.2,
+            },
+        });
+
+        // Prepare the image data
+        const imagePart = {
+            inlineData: {
+                data: Buffer.from(imageData).toString('base64'),
+                mimeType: "image/jpeg"
+            }
+        };
+        // Prepare the prompt
     }
 }
 
