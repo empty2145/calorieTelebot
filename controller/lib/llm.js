@@ -159,5 +159,6 @@ async function estimatePortionsAndNutrition(imageUrl, refinedClassification) {
 
 module.exports = {
     analyzeImageWithGemini,
-    classifyAndRefineFoods
+    classifyAndRefineFoods,
+    estimatePortionsAndNutrition
 };
