@@ -1,7 +1,7 @@
 // lib/telegram.js
 const { getAxiosInstance } = require('./axios');
 const { errorHandler } = require("./helpers");
-const { analyzeImageWithGemini, classifyAndRefineFoods } = require("./llm");
+const { analyzeImageWithGemini, classifyAndRefineFoods, estimatePortionsAndNutrition } = require("./llm");
 
 const MY_TOKEN = process.env.MY_TOKEN
 const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
