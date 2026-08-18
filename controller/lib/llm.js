@@ -114,7 +114,44 @@ async function estimatePortionsAndNutrition(imageUrl, refinedClassification) {
             }
         };
         // Prepare the prompt
-    }
+        const prompt = `As a nutrition expert, analyze this image along with the following food classification:
+            ${refinedClassification}
+
+            Please provide:
+
+            1. PORTION SIZES:
+            - Estimate the absolute portion size for each food item
+            - Use visual cues from the image to make accurate estimations
+            - Express portions in standard measurements (grams, cups, pieces, etc.)
+
+            2. NUTRITIONAL ANALYSIS:
+            - Using reliable nutritional databases as reference
+            - For each food item, provide:
+                * Calories
+                * Protein (g)
+                * Carbohydrates (g)
+                * Fat (g)
+                * Fiber (g)
+                * Any other significant nutrients
+
+            3. TOTAL MEAL ANALYSIS:
+            - Sum up the total calories
+            - Provide macronutrient breakdown
+            - Include any relevant dietary considerations
+
+            Please be as specific and detailed as possible in your analysis. Format your response in clear sections for easy reading.`;
+
+        // Generate content
+        const result = await model.generateContent([prompt, imagePart]);
+        const response = await result.response;
+
+        if (!response.text()) {
+            throw new Error("Empty response from LLM");
+        }
+
+        return response.text();
+
+    } 
 }
 
 module.exports = {
