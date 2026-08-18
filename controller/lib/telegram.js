@@ -63,20 +63,22 @@ async function processThePhoto(messageObj) {
                 await sendMessage(messageObj, "Step 1: Analyzing the image...");
                 const initialAnalysis = await analyzeImageWithGemini(file_public_path);
 
-                const circumsizedInitialanalysis = await circumsi
-                await sendMessage(messageObj,"Initial analysis:\n\n" + initialAnalysis);
+                const circumsizedInitialanalysis = await circumcizeMessage(initialAnalysis, 1000);
+                await sendMessage(messageObj,"Initial analysis:\n\n" + circumsizedInitialanalysis);
 
                 //Step 2: Classify and refine foods
                 await sendMessage(messageObj, "Step 2: Classifying and refining the foods...");
                 const refinedClassification = await classifyAndRefineFoods(initialAnalysis);
 
-                await sendMessage(messageObj, "Refined classification of the foods:\n\n" + refinedClassification);
+                const circumsizedRefinedClassification = await circumcizeMessage(refinedClassification, 1000);
+                await sendMessage(messageObj, "Refined classification:\n\n" + circumsizedRefinedClassification);
 
                 //Step 3 Estimate portions and nutritional content
                 await sendMessage(messageObj, "Step 3: Estimating portions and nutritional content...");
                 const nutritionalAnalysis = await estimatePortionsAndNutrition(file_public_path, refinedClassification);
                 
-                await sendMessage(messageObj, "Nutritional analysis:\n\n" + nutritionalAnalysis);
+                const circumsizedNutritionalAnalysis = await circumcizeMessage(nutritionalAnalysis, 1000);
+                await sendMessage(messageObj, "Nutritional analysis:\n\n" + circumsizedNutritionalAnalysis);
 
 
                 return true;
