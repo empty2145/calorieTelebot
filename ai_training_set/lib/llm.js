@@ -1,4 +1,5 @@
 // lib/llm.js
+// lib/llm.js
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { errorHandler } = require("./helpers");
 
@@ -15,7 +16,7 @@ async function analyzeImageWithGemini(imageUrl) {
         const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash",
             generationConfig: {
-                maxOutputTokens: 12000,
+                maxOutputTokens: 8000,
                 temperature: 0.2,
             },
         });
@@ -39,7 +40,7 @@ async function analyzeImageWithGemini(imageUrl) {
         - Maximum 4 lines.
         - No detailed visual description.
         - No markdown table.
-        - Keep it under 1000 characters.`;
+        - Keep it under 500 characters.`;
 
         // Generate content
         const result = await model.generateContent([prompt, imagePart]);
@@ -59,13 +60,7 @@ async function classifyAndRefineFoods(initialAnalysis) {
         }
 
         // Initialize the model (using regular Gemini Flash not Vision)
-        const model = genAI.getGenerativeModel({ 
-            model: "gemini-2.5-flash",
-            generationConfig: {
-                maxOutputTokens: 20000,
-                temperature: 0.2,
-            },
-        });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         // Prepare prompt
         const prompt = `As a nutrition expert, analyze the following food description and provide a refined classification
@@ -107,7 +102,7 @@ async function estimatePortionsAndNutrition(imageUrl, refinedClassification) {
         const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash",
             generationConfig: {
-                maxOutputTokens: 20000,
+                maxOutputTokens: 10000,
                 temperature: 0.2,
             },
         });
@@ -123,7 +118,7 @@ async function estimatePortionsAndNutrition(imageUrl, refinedClassification) {
         const prompt = `As a nutrition expert, analyze this image along with the following food classification:
             ${refinedClassification}
 
-            keep the answer less than 2000 characters and provide a detailed nutritional analysis including
+            Please provide:
 
             1. PORTION SIZES:
             - Estimate the absolute portion size for each food item
