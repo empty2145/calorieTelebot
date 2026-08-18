@@ -151,7 +151,10 @@ async function estimatePortionsAndNutrition(imageUrl, refinedClassification) {
 
         return response.text();
 
-    } 
+    } catch (error) {
+        errorHandler(error, "estimatePortionsAndNutrition");
+        return "Failed to estimate portions and nutrition";
+    }
 }
 
 module.exports = {
