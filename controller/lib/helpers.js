@@ -23,7 +23,11 @@ function errorHandler(error, name, from) {
 
     loggerFunction("------------END------------")
 }
+async function circumcizeMessage(text, maxLength) {
+    return text.length > maxLength ? text.splice(0, maxLength) + "..." : text;
+}
 
 module.exports = {
     errorHandler,
+    circumcizeMessage
 }

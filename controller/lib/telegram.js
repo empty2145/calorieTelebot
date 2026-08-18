@@ -1,6 +1,6 @@
 // lib/telegram.js
 const { getAxiosInstance } = require('./axios');
-const { errorHandler } = require("./helpers");
+const { errorHandler, circumcizeMessage } = require("./helpers");
 const { analyzeImageWithGemini, classifyAndRefineFoods, estimatePortionsAndNutrition } = require("./llm");
 
 const MY_TOKEN = process.env.MY_TOKEN
@@ -63,6 +63,7 @@ async function processThePhoto(messageObj) {
                 await sendMessage(messageObj, "Step 1: Analyzing the image...");
                 const initialAnalysis = await analyzeImageWithGemini(file_public_path);
 
+                const circumsizedInitialanalysis = await circumsi
                 await sendMessage(messageObj,"Initial analysis:\n\n" + initialAnalysis);
 
                 //Step 2: Classify and refine foods
