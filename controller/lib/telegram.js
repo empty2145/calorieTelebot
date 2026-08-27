@@ -66,33 +66,8 @@ async function processThePhoto(messageObj) {
                 const circumsizedInitialanalysis = await circumcizeMessage(initialAnalysis, 1000);
                 await sendMessage(messageObj,"Initial analysis:\n\n" + circumsizedInitialanalysis);
 
-                //Step 2: Classify and refine foods
-                await sendMessage(messageObj, "Step 2: Classifying and refining the foods...");
-                const refinedClassification = await classifyAndRefineFoods(initialAnalysis);
-
-                const circumsizedRefinedClassification = await circumcizeMessage(refinedClassification, 1000);
-                await sendMessage(messageObj, "Refined classification:\n\n" + circumsizedRefinedClassification);
-
-                //Step 3 Estimate portions and nutritional content
-                await sendMessage(messageObj, "Step 3: Estimating portions and nutritional content...");
-                const nutritionalAnalysis = await estimatePortionsAndNutrition(file_public_path, refinedClassification);
-                
-                const circumsizedNutritionalAnalysis = await circumcizeMessage(nutritionalAnalysis, 1000);
-                await sendMessage(messageObj, "Nutritional analysis:\n\n" + circumsizedNutritionalAnalysis);
-
 
                 return true;
-
-                /*
-                // Analyze the image using Gemini
-                const analysis = await analyzeImageWithGemini(file_public_path);
-
-                // Send the analysis back to the user
-                const conciseAnalysis = analysis.length > 700
-                    ? analysis.slice(0,697) + "..."
-                    : analysis;
-
-                await sendMessage(messageObj, conciseAnalysis);*/
             }
         } catch (error) {
             errorHandler(error, "processThePhoto");
