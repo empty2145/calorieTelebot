@@ -28,18 +28,10 @@ async function analyzeImageWithGemini(imageUrl) {
         };
 
         // Prepare the prompt
-        const prompt = `Analyze this food image and reply concisely.
-        Format:
-        Estimated calories: <number or range> kcal
-        Items: <short comma-separated list>
-        Portions: <brief estimate>
-        Notes: <one short sentence if uncertain>
-
-        Rules:
-        - Maximum 4 lines.
-        - No detailed visual description.
-        - No markdown table.
-        - Keep it under 1000 characters.`;
+        const prompt = `Analyze this food image and return an array of objects
+            each with a food name a estimated portion
+            send it in JSON with no other commentary
+        `;
 
         // Generate content
         const result = await model.generateContent([prompt, imagePart]);
@@ -50,6 +42,10 @@ async function analyzeImageWithGemini(imageUrl) {
         errorHandler(error, "analyzeImageWithGemini");
         return "Failed to analyze the image";
     }
+}
+
+async function lookupNutritionForItems(foodItems) {
+    // takes that array, loo
 }
 
 module.exports = {
