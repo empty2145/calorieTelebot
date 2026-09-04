@@ -37,7 +37,10 @@ async function analyzeImageWithGemini(imageUrl) {
         const result = await model.generateContent([prompt, imagePart]);
         const response = await result.response;
         console.log("Gemini response:", response);
-        return response.text();
+
+        const rawText = response.text();
+        const cleanText = rawText.replace(/```json/g, "").replace(/```/g, "").trim()
+        return JSON.parse(cleanText);
     } catch (error) {
         errorHandler(error, "analyzeImageWithGemini");
         return "Failed to analyze the image";
@@ -45,7 +48,7 @@ async function analyzeImageWithGemini(imageUrl) {
 }
 
 async function lookupNutritionForItems(foodItems) {
-    // takes that array, loo
+    //  STEP 2 takes that array, loops over each item, calls USDA search 
 }
 
 module.exports = {
