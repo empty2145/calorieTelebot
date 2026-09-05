@@ -71,7 +71,7 @@ async function lookupNutritionForItems(foodItems) {
     }
 
 
-    return finalResults:
+    return finalResults;
 }
 
 module.exports = {

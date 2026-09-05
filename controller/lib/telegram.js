@@ -1,7 +1,7 @@
 // lib/telegram.js
 const { getAxiosInstance } = require('./axios');
 const { errorHandler, circumcizeMessage } = require("./helpers");
-const { analyzeImageWithGemini, classifyAndRefineFoods, estimatePortionsAndNutrition } = require("./llm");
+const { analyzeImageWithGemini, classifyAndRefineFoods, estimatePortionsAndNutrition, lookupNutritionForItems } = require("./llm");
 
 const MY_TOKEN = process.env.MY_TOKEN
 const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
@@ -59,13 +59,31 @@ async function processThePhoto(messageObj) {
                 const fileName = fileData.data.result.file_path;
                 const file_public_path = `https://api.telegram.org/file/bot${MY_TOKEN}/${fileName}`;
 
-                // Step 1: Initial image analysis
+                // Step 1 Fulgora: Initial image analysis
                 await sendMessage(messageObj, "Step 1: Analyzing the image...");
                 const initialAnalysis = await analyzeImageWithGemini(file_public_path);
 
-                const circumsizedInitialanalysis = await circumcizeMessage(initialAnalysis, 1000);
-                await sendMessage(messageObj,"Initial analysis:\n\n" + circumsizedInitialanalysis);
+                //const circumsizedInitialanalysis = await circumcizeMessage(initialAnalysis, 1000);
+                //await sendMessage(messageObj,"Initial analysis:\n\n" + circumsizedInitialanalysis);
 
+                // Step 2 Gleba: USDA Nutrition Lookup
+                await sendMessage(messageObj, "Step 2: Extracting bilogical data from USDA...")
+                const nutritionalData = await lookupNutritionForItems(initialAnalysis);
+
+                // final message formatting and pretty loop
+
+                let finalMessage = "🌟 **Meal Analysis Complete!** 🌟\n\n";
+
+                for (const item of nutritionalData) {
+                    finalMessage += `🍽️ **${item.foodName}** (Est. ${item.portion})\n`;
+                    finalMessage += `   🔥 Calories: ${item.calories}\n`;
+                    finalMessage += `   🥩 Protein: ${item.protein}g\n`;
+                    finalMessage += `   🥑 Fat: ${item.fat}g\n`;
+                    finalMessage += `   🍞 Carbs: ${item.carbs}g\n\n`;
+                }
+
+                // droppod
+                await sendMessage(messageObj, finalMessage);
 
                 return true;
             }
