@@ -51,7 +51,7 @@ async function analyzeImageWithGemini(imageUrl) {
 async function lookupNutritionForItems(foodItems) {
     //  STEP 2 takes that array, loops over each item, calls USDA search
     // final processed items
-    const finarray = [];
+    const finalResults = [];
 
     // loop over every item
     for (const item of foodItems) {
