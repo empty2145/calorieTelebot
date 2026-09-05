@@ -18,7 +18,7 @@ function getAxiosInstance() {
     }
 }
 
-function lookupNutrition(foodName) {
+async function lookupNutrition(foodName) {
     // Step 1: finds the item
     try {
         const response = await axios.get(`https://api.nal.usda.gov/fdc/v1/foods/search`, {
