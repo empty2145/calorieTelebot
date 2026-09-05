@@ -25,7 +25,7 @@ function lookupNutrition(foodName) {
     });
 
     const foods = response.data.foods;
-    const match = foods.find(food => food.dataType === "SR Legacy");
+    const match = foods.find(food => food.dataType === "SR Legacy") || foods.find(food => food.dataType === "Branded");
 
 }
 
