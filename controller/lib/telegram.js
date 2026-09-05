@@ -73,7 +73,7 @@ async function processThePhoto(messageObj) {
                 //await sendMessage(messageObj,"Initial analysis:\n\n" + circumsizedInitialanalysis);
 
                 // Step 2 Gleba: USDA Nutrition Lookup
-                await sendMessage(messageObj, "Step 2: Extracting bilogical data from USDA...")
+                await sendMessage(messageObj, "Step 2: Extracting biological data from USDA...")
                 const nutritionalData = await lookupNutritionForItems(initialAnalysis);
 
                 // final message formatting and pretty loop

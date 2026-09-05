@@ -29,9 +29,15 @@ async function analyzeImageWithGemini(imageUrl) {
         };
 
         // Prepare the prompt
-        const prompt = `Analyze this food image and return an array of objects
-            each with a food name a estimated portion
-            send it in JSON with no other commentary
+        const prompt = `Analyze this food image and identify the items. 
+            You MUST return an array of objects using exactly this JSON format:
+            [
+              {
+                "name": "name of the food",
+                "portion": "estimated portion"
+              }
+            ]
+            Return ONLY the JSON array with no other commentary or markdown formatting.
         `;
 
         // Generate content
