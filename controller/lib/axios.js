@@ -1,3 +1,5 @@
+// lib/axios.js
+
 const axios = require('axios');
 const MY_TOKEN = process.env.MY_TOKEN;
 const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
@@ -17,6 +19,7 @@ function getAxiosInstance() {
 }
 
 function lookupNutrition(foodName) {
+    // Step 1: finds the item
     try {
         const response = await axios.get(`https://api.nal.usda.gov/fdc/v1/foods/search`, {
             params: {
@@ -59,4 +62,4 @@ function lookupNutrition(foodName) {
     }
 }
 
-module.exports = { getAxiosInstance: getAxiosInstance };
+module.exports = { getAxiosInstance: getAxiosInstance, lookupNutrition: lookupNutrition};

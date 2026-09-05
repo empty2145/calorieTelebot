@@ -1,6 +1,7 @@
 // lib/llm.js
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { errorHandler } = require("./helpers");
+const { lookupNutrition } = require("./axios");
 
 // Initialize the Google AI SDK
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
@@ -48,9 +49,32 @@ async function analyzeImageWithGemini(imageUrl) {
 }
 
 async function lookupNutritionForItems(foodItems) {
-    //  STEP 2 takes that array, loops over each item, calls USDA search 
+    //  STEP 2 takes that array, loops over each item, calls USDA search
+    // final processed items
+    const finarray = [];
+
+    // loop over every item
+    for (const item of foodItems) {
+        // send to USDA and wait for it to finish
+        const usdaData = await lookupNutrition(item.name);
+        if (usdaData) {
+            finalResults.push({
+                foodName: item.name,
+                portion: item.portion,
+                calories: usdaData.calories,
+                protein: usdaData.protein,
+                fat: usdaData.protein,
+                fat: usdaData.fat,
+                carbs: usdaData.carbs
+            });
+        }
+    }
+
+
+    return finalResults:
 }
 
 module.exports = {
-    analyzeImageWithGemini
+    analyzeImageWithGemini,
+    lookupNutritionForItems,
 };
