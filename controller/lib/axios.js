@@ -36,7 +36,13 @@ function lookupNutrition(foodName) {
     const fatData = nutrients.find(n => n.nutrientName === "Total lipid (fat");
     const carbsData = nutrients.find(n => n.nutrientName === "Carbohydrate, by difference");
 
+    // extract the numbers
+    const calories = energyData?.value || 0;
+    const protein = proteinData?.value || 0;
+    const fat = fatData?.value || 0;
+    const carbs = carbsData?.value || 0;
 
+    console.log(`Calories: ${calories}, Protein: ${protein}g, Fat: ${fat}g, Carbs: ${carbs}g`);
 }
 
 module.exports = { getAxiosInstance: getAxiosInstance };
