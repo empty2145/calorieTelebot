@@ -27,6 +27,16 @@ function lookupNutrition(foodName) {
     const foods = response.data.foods;
     const match = foods.find(food => food.dataType === "SR Legacy") || foods.find(food => food.dataType === "Branded");
 
+    //search for nutrients
+    const nutrients = match.foodNutrients;
+
+    // energy protein fat carbs data
+    const energyData = nutrients.find(n => n.nutrientName === "Energy");
+    const proteinData = nutrients.find(n => n.nutrientName === "Protein");
+    const fatData = nutrients.find(n => n.nutrientName === "Total lipid (fat");
+    const carbsData = nutrients.find(n => n.nutrientName === "Carbohydrate, by difference");
+
+
 }
 
 module.exports = { getAxiosInstance: getAxiosInstance };
