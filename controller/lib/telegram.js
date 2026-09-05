@@ -63,6 +63,12 @@ async function processThePhoto(messageObj) {
                 await sendMessage(messageObj, "Step 1: Analyzing the image...");
                 const initialAnalysis = await analyzeImageWithGemini(file_public_path);
 
+                // SAFETY CHECK
+                if (!initialAnalysis || !Array.isArray(initialAnalysis)) {
+                    await sendMessage(messageObj, "Gemini is experiencing high traffic right now! Please try sending the photo again");
+                    return false;
+                }
+
                 //const circumsizedInitialanalysis = await circumcizeMessage(initialAnalysis, 1000);
                 //await sendMessage(messageObj,"Initial analysis:\n\n" + circumsizedInitialanalysis);
 

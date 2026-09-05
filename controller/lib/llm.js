@@ -44,7 +44,7 @@ async function analyzeImageWithGemini(imageUrl) {
         return JSON.parse(cleanText);
     } catch (error) {
         errorHandler(error, "analyzeImageWithGemini");
-        return "Failed to analyze the image";
+        return null;
     }
 }
 
