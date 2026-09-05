@@ -80,13 +80,31 @@ async function processThePhoto(messageObj) {
 
                 let finalMessage = "🌟 **Meal Analysis Complete!** 🌟\n\n";
 
+                // storage tanks
+                let totalCalories = 0;
+                let totalProtein = 0;
+                let totalFat = 0;
+                let totalCarbs = 0;
+
                 for (const item of nutritionalData) {
                     finalMessage += `🍽️ **${item.foodName}** (Est. ${item.portion})\n`;
                     finalMessage += `   🔥 Calories: ${item.calories}\n`;
                     finalMessage += `   🥩 Protein: ${item.protein}g\n`;
                     finalMessage += `   🥑 Fat: ${item.fat}g\n`;
                     finalMessage += `   🍞 Carbs: ${item.carbs}g\n\n`;
+
+                    totalCalories += item.calories;
+                    totalProtein += item.protein;
+                    totalFat += item.fat;
+                    totalCarbs += item.carbs;
                 }
+
+                finalMessage += `======================\n`;
+                finalMessage += `🏆 **GRAND TOTAL**\n`;
+                finalMessage += `   🔥 Calories: ${Math.round(totalCalories)}\n`;
+                finalMessage += `   🥩 Protein: ${Math.round(totalProtein)}g\n`;
+                finalMessage += `   🥑 Fat: ${Math.round(totalFat)}g\n`;
+                finalMessage += `   🍞 Carbs: ${Math.round(totalCarbs)}g\n`;
 
                 // droppod
                 await sendMessage(messageObj, finalMessage);
