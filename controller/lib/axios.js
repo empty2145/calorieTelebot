@@ -27,9 +27,27 @@ async function lookupNutrition(foodName) {
                 query: foodName
             }
         });
-    
-        const foods = response.data.foods;
-        const match = foods.find(food => food.dataType === "SR Legacy") || foods.find(food => food.dataType === "Branded") || foods [0];
+        // changing the logic, instead of taking the first object it will choose deliberateky
+        // 2 new machines a filter inserter and smart splitter
+        let foods = response.data.foods;
+
+        if (!foods || foods.length === 0) {
+            return null;
+        }
+        // filter inserter - throws away highly processed junk unless asked for
+        const cleanFoods = foods.filter(food => {
+            const desc = food.description.toLowerCase();
+            return !desc.includes("powder") && !desc.includes("dried");
+        });
+
+        if (cleanFoods.length > 0) {
+            foods = cleanFoods;
+        }
+        //splitter
+        const match = foods.find(food => food.dataType === "Foundation")
+        || foods.find(food => food.dataType === "SR Legacy") 
+        || foods.find(food => food.dataType === "Branded") 
+        || foods [0];
     
         //search for nutrients
         const nutrients = match.foodNutrients;
