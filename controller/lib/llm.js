@@ -29,12 +29,13 @@ async function analyzeImageWithGemini(imageUrl) {
         };
 
         // Prepare the prompt
-        const prompt = `Analyze this food image and identify the items. 
+        const prompt = `Analyze this food image and identify the items.
+            Estimate the weight of each item in grams based on standard portion sizes. 
             You MUST return an array of objects using exactly this JSON format:
             [
               {
                 "name": "name of the food",
-                "portion": "estimated portion"
+                "weightInGrams": 150
               }
             ]
             Return ONLY the JSON array with no other commentary or markdown formatting.
@@ -64,14 +65,17 @@ async function lookupNutritionForItems(foodItems) {
         // send to USDA and wait for it to finish
         const usdaData = await lookupNutrition(item.name);
         if (usdaData) {
+
+            const ratio = (item.weightInGrams || 100) / 100;
+
             finalResults.push({
                 foodName: item.name,
-                portion: item.portion,
-                calories: usdaData.calories,
-                protein: usdaData.protein,
-                fat: usdaData.protein,
-                fat: usdaData.fat,
-                carbs: usdaData.carbs
+                portion: `${item.weightInGrams}g`,
+                calories: usdaData.calories * ratio,
+                protein: usdaData.protein * ratio,
+                fat: usdaData.protein * ratio,
+                fat: usdaData.fat * ratio,
+                carbs: usdaData.carbs * ratio
             });
         }
     }
