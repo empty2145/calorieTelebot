@@ -46,9 +46,6 @@ function handleText(messageObj) {
 async function processThePhoto(messageObj) {
     if (messageObj.photo && messageObj.photo.length !== 0) {
         try {
-            // Send initial message to user
-            await sendMessage(messageObj, "Analyzing your food image...");
-        
             //Taking the file id from the photo
             const fileId = messageObj.photo[messageObj.photo.length - 1].file_id;
 

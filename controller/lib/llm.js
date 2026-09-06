@@ -34,7 +34,7 @@ async function analyzeImageWithGemini(imageUrl) {
             You MUST return an array of objects using exactly this JSON format:
             [
               {
-                "name": "name of the food (be specific, e.g., 'raw sweet corn', 'fresh cherry tomatoes', 'grilled chicken breast'",
+                "name": "name of the food (use simple, generic USDA names. e.g., use 'raw potato' instead of 'roasted potato chunks', or 'cooked chicken' instead of 'roasted chicken pieces')",
                 "weightInGrams": 150
               }
             ]
