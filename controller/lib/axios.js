@@ -53,16 +53,20 @@ async function lookupNutrition(foodName) {
         const nutrients = match.foodNutrients;
     
         // energy protein fat carbs data
-        const energyData = nutrients.find(n => n.nutrientName === "Energy");
+        const energyData = nutrients.find(n => n.nutrientName === "Energy" && n.unitName === "kcal");
         const proteinData = nutrients.find(n => n.nutrientName === "Protein");
         const fatData = nutrients.find(n => n.nutrientName === "Total lipid (fat)" || n.nutrientName === "Total Fat");
         const carbsData = nutrients.find(n => n.nutrientName === "Carbohydrate, by difference");
     
         // extract the numbers
-        const calories = energyData?.value || 0;
         const protein = proteinData?.value || 0;
         const fat = fatData?.value || 0;
         const carbs = carbsData?.value || 0;
+        // calorie backup
+        let calories = energyData?.value;
+        if (!calories) {
+            calories = (protein *4) + (carbs * 4) + (fat * 9);
+        }
     
         console.log(`Calories: ${calories}, Protein: ${protein}g, Fat: ${fat}g, Carbs: ${carbs}g`);
     
