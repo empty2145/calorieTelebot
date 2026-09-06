@@ -35,14 +35,23 @@ async function lookupNutrition(foodName) {
             return null;
         }
         // 2.0 filter inserter - throws away highly processed junk unless asked for
-        // 3.0 upgraded filter - in general checks inside the entry if its blank
+        // 2.1 upgraded filter - in general checks inside the entry if its blank
+        // 2.2 changed from hasData to hasMacros that checks onyl specific values
         const cleanFoods = foods.filter(food => {
             const desc = food.description.toLowerCase();
 
             const isNotPowder = !desc.includes("powder") && !desc.includes("dried");
-            const hasData = food.foodNutrients && food.foodNutrients.some(n => n.value > 0);
+            const hasMacros = food.foodNutrients && food.foodNutrients.some(n => {
+                const isMacro = n.nutrientName === "Protein" ||
+                                n.nutrientName === "Total lipid (fat)" ||
+                                n.nutrientName === "Total Fat" ||
+                                n.nutrientName === "Carbohydrates, by difference";
+                
+                return isMacro && n.value > 0;
 
-            return isNotPowder && hasData;
+            });
+
+            return isNotPowder && hasMacros;
         });
 
         if (cleanFoods.length > 0) {
