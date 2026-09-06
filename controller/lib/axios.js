@@ -28,16 +28,21 @@ async function lookupNutrition(foodName) {
             }
         });
         // changing the logic, instead of taking the first object it will choose deliberateky
-        // 2 new machines a filter inserter and smart splitter
+        // 2.0 2 new machines a filter inserter and smart splitter
         let foods = response.data.foods;
 
         if (!foods || foods.length === 0) {
             return null;
         }
-        // filter inserter - throws away highly processed junk unless asked for
+        // 2.0 filter inserter - throws away highly processed junk unless asked for
+        // 3.0 upgraded filter - in general checks inside the entry if its blank
         const cleanFoods = foods.filter(food => {
             const desc = food.description.toLowerCase();
-            return !desc.includes("powder") && !desc.includes("dried");
+
+            const isNotPowder = !desc.includes("powder") && !desc.includes("dried");
+            const hasData = food.foodNutrients && food.foodNutrients.some(n => n.value > 0);
+
+            return isNotPowder && hasData;
         });
 
         if (cleanFoods.length > 0) {
