@@ -37,7 +37,7 @@ async function lookupNutrition(foodName) {
         // energy protein fat carbs data
         const energyData = nutrients.find(n => n.nutrientName === "Energy");
         const proteinData = nutrients.find(n => n.nutrientName === "Protein");
-        const fatData = nutrients.find(n => n.nutrientName === "Total lipid (fat");
+        const fatData = nutrients.find(n => n.nutrientName === "Total lipid (fat)" || n.nutrientName === "Total Fat");
         const carbsData = nutrients.find(n => n.nutrientName === "Carbohydrate, by difference");
     
         // extract the numbers
