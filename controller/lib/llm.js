@@ -71,11 +71,10 @@ async function lookupNutritionForItems(foodItems) {
             finalResults.push({
                 foodName: item.name,
                 portion: `${item.weightInGrams}g`,
-                calories: usdaData.calories * ratio,
-                protein: usdaData.protein * ratio,
-                fat: usdaData.protein * ratio,
-                fat: usdaData.fat * ratio,
-                carbs: usdaData.carbs * ratio
+                calories: Math.round(usdaData.calories * ratio),
+                protein: Math.round(usdaData.protein * ratio),
+                fat: Math.round(usdaData.fat * ratio),
+                carbs: Math.round(usdaData.carbs * ratio)
             });
         }
     }
