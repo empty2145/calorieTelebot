@@ -37,10 +37,15 @@ async function lookupNutrition(foodName) {
         // 2.0 filter inserter - throws away highly processed junk unless asked for
         // 2.1 upgraded filter - in general checks inside the entry if its blank
         // 2.2 changed from hasData to hasMacros that checks onyl specific values
+        // 2.3 final inserter upgrade: The Complete Obliteration of sludge
         const cleanFoods = foods.filter(food => {
             const desc = food.description.toLowerCase();
 
-            const isNotPowder = !desc.includes("powder") && !desc.includes("dried");
+            const isNotPowder = !desc.includes("powder") && 
+                                !desc.includes("dried") &&
+                                !desc.includes("chips") &&
+                                !desc.includes("crips") &&
+                                !desc.includes("flakes");
             const hasMacros = food.foodNutrients && food.foodNutrients.some(n => {
                 const isMacro = n.nutrientName === "Protein" ||
                                 n.nutrientName === "Total lipid (fat)" ||
