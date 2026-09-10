@@ -2,6 +2,7 @@
 const { getAxiosInstance } = require('./axios');
 const { errorHandler, circumcizeMessage } = require("./helpers");
 const { analyzeImageWithGemini, classifyAndRefineFoods, estimatePortionsAndNutrition, lookupNutritionForItems } = require("./llm");
+const { Meal } = require('./db');
 
 const MY_TOKEN = process.env.MY_TOKEN
 const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
@@ -105,6 +106,22 @@ async function processThePhoto(messageObj) {
 
                 // droppod
                 await sendMessage(messageObj, finalMessage);
+
+                try {
+                    await Meal.create({
+                        userId: messageObj.from.id,
+                        grandTotals: {
+                            calories: Math.round(totalCalories),
+                            protein: Math.round(totalProtein),
+                            fat: Math.round(totalFat),
+                            carbs: Math.round(totalCarbs)
+                        },
+                        foods: nutritionalData
+                    });
+                    console.log("✅ Meal saved to Logistics Storage!")
+                } catch (dbError) {
+                    console.error("❌ Failed to save meal:", dbError);
+                }
 
                 return true;
             }
