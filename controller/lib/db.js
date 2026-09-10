@@ -12,3 +12,6 @@ const mealSchema = new mongoose,Schema({
     },
     foods: Array
 });
+
+const Meal = mongoose.model('Meal', mealSchema);
+
