@@ -15,3 +15,13 @@ const mealSchema = new mongoose,Schema({
 
 const Meal = mongoose.model('Meal', mealSchema);
 
+async function connectDB() {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("🟢 Logistics Storage Network Connected!");
+    } catch (error) {
+        console.error("🔴 Database Connection Failed:", error);
+    }
+};
+
+module.exports = { connectDB, Meal };
