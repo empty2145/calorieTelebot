@@ -1,5 +1,5 @@
 require("dotenv").config();
-const connectDB = require("./controller/lib/db");
+const { connectDB } = require("./controller/lib/db");
 connectDB();
 const express = require('express');
 const PORT = process.env.PORT || 4040;
