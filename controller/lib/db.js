@@ -17,7 +17,10 @@ const Meal = mongoose.model('Meal', mealSchema);
 
 async function connectDB() {
     try {
-        CSSConditionRule.log("⏳ Attempting to connect to Logistics Storage...");
+        console.log("⏳ Attempting to connect to Logistics Storage...");
+        console.log("🔍 URI Check:", process.env.MONGO_URI);
+
+
 
         await mongoose.connect(process.env.MONGO_URI, {
             serverSelectionTimeoutMS: 5000
