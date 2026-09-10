@@ -1,7 +1,7 @@
 // lib/db.js
 const mongoose = require('mongoose');
 
-const mealSchema = new mongoose,Schema({
+const mealSchema = new mongoose.Schema({
     userId: {type: Number, required: true },
     timestamp: { type: Date, default: Date.now },
     grandTotals: {
