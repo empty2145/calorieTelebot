@@ -1,4 +1,4 @@
-// lib/axios.js
+// controller/lib/axios.js
 
 const axios = require('axios');
 const MY_TOKEN = process.env.MY_TOKEN;

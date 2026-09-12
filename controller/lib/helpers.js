@@ -1,3 +1,5 @@
+// controller/lib/helpers.js
+
 function errorHandler(error, name, from) {
     let loggerFunction = console.log;
 

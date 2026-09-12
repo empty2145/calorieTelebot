@@ -1,4 +1,4 @@
-// lib/llm.js
+// controller/lib/llm.js
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { errorHandler } = require("./helpers");
 const { lookupNutrition } = require("./axios");

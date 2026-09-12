@@ -1,7 +1,9 @@
+// controller/index.js
+
 const { handleMessage } = require("./lib/telegram");
 
 async function handler(req, method) {
-    const {body } = req;
+    const { body } = req;
     if (body) {
         const messageObj = body.message;
         await handleMessage(messageObj);

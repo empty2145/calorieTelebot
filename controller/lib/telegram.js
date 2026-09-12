@@ -1,4 +1,4 @@
-// lib/telegram.js
+// controller/lib/telegram.js
 const { getAxiosInstance } = require('./axios');
 const { errorHandler, circumcizeMessage } = require("./helpers");
 const { analyzeImageWithGemini, classifyAndRefineFoods, estimatePortionsAndNutrition, lookupNutritionForItems } = require("./llm");

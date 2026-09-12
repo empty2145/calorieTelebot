@@ -1,3 +1,4 @@
+// index.js
 require("dotenv").config();
 const { connectDB } = require("./controller/lib/db");
 connectDB();
