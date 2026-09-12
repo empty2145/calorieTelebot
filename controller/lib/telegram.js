@@ -25,7 +25,7 @@ async function handleMessage(messageObj) {
     if (messageObj.text) handleText(messageObj);
 }
 
-function handleText(messageObj) {
+async function handleText(messageObj) {
     const messageText = messageObj.text || "";
 
     if (messageText.charAt(0) === "/") {
@@ -34,8 +34,16 @@ function handleText(messageObj) {
             case "start":
                 return sendMessage(
                     messageObj,
-                    "Hi! I am a bot. I can help you to get started"
+                    "Hi! I am the ZeRoCalorie bot. Send me a photo of your food to track macros! 📸"
                 );
+            case "today":
+                const startOfDay =new Date();
+                startOfDay.setHours(0, 0, 0, 0);
+
+                const endOfDay = new Date();
+                endOfDay.setHours(23, 59, 59, 999);
+
+                
             default:
                 return sendMessage(messageObj, "Hey hi, I don't know that command")
         }
