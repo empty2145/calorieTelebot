@@ -69,8 +69,10 @@ async function handleText(messageObj) {
                     report += `🍞 Carbs: ${totalCarbs}g\n`;
 
                     return sendMessage(messageObj, report);
+
                 } catch (error) {
-                    
+                    console.error("Database error:", error);
+                    return sendMessage(messageObj, "Oops, the database train got stuck.");
                 }
             default:
                 return sendMessage(messageObj, "Hey hi, I don't know that command")
