@@ -12,11 +12,16 @@ function getFile(fileId) {
     return axiosInstance.get("getFile", { file_id: fileId})
 }
 
-function sendMessage(messageObj, messageText) {
-    return axiosInstance.post("sendMessage", {
-        chat_id: messageObj.chat.id,
-        text: messageText,
-    })
+async function sendMessage(messageObj, messageText) {
+    try{
+        return axiosInstance.post("sendMessage", {
+            chat_id: messageObj.chat.id,
+            text: messageText,
+        })
+    } catch (error) {
+        console.error("🔴 Telegram delivery failed:", error.message);
+        return null;
+    }
 }
 
 async function handleMessage(messageObj) {
@@ -78,7 +83,7 @@ async function handleText(messageObj) {
                 return sendMessage(messageObj, "Hey hi, I don't know that command")
         }
     } else {
-        return sendMessage(messageObj, messageText);
+        return sendMessage(messageObj, "Send me a photo of your food to track macros, or type /today to see your stats! 📸");
     }
 }
 
