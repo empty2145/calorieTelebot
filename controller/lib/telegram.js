@@ -43,7 +43,26 @@ async function handleText(messageObj) {
                 const endOfDay = new Date();
                 endOfDay.setHours(23, 59, 59, 999);
 
-                
+                try {
+                    const todaysMeals = await Meal.find({
+                        userId: messageObj.from.id,
+                        timestamp: { $gte: startOfDay, $lte: endOfDay }
+                    });
+
+                    if (todaysMeals.length === 0) {
+                        return sendMessage(messageObj, "You haven't logged any meals today! Send me a food picture to get started. 📸");
+                    }
+
+                    let totalCals = 0, totalPro, totalFat, totalCarbs = 0;
+                    todaysMeals.forEach(meal => {
+                        totalCals += meal.grandTotals.calories
+                        totalPro
+                        totalFat
+                        totalCarbs
+                    })
+                } catch (error) {
+
+                }
             default:
                 return sendMessage(messageObj, "Hey hi, I don't know that command")
         }
