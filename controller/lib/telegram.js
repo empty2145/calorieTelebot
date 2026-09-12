@@ -56,12 +56,21 @@ async function handleText(messageObj) {
                     let totalCals = 0, totalPro, totalFat, totalCarbs = 0;
                     todaysMeals.forEach(meal => {
                         totalCals += meal.grandTotals.calories
-                        totalPro
-                        totalFat
-                        totalCarbs
-                    })
-                } catch (error) {
+                        totalPro += meal.grandTotals.protein;
+                        totalFat += meal.grandTotals.fat;
+                        totalCarbs += meal.grandTotals.carbs;
+                    });
 
+                    let report = `📊 **YOUR DAILY TRACKER** 📊\n\n`;
+                    report += `Meals Logged: ${todaysMeals.length}\n`;
+                    report += `🔥 Calories: ${totalCals}\n`;
+                    report += `🥩 Protein: ${totalPro}g\n`;
+                    report += `🥑 Fat: ${totalFat}g\n`;
+                    report += `🍞 Carbs: ${totalCarbs}g\n`;
+
+                    return sendMessage(messageObj, report);
+                } catch (error) {
+                    
                 }
             default:
                 return sendMessage(messageObj, "Hey hi, I don't know that command")
