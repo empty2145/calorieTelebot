@@ -157,6 +157,12 @@ async function handleText(messageObj) {
 
                     //avgs
                     const uniqueDays = new Set(statsMeals.map(meal => meal.timestamp.toDateString())).size;
+                    const avgCals = Math.round(totalStatsCals / uniqueDays);
+
+                    let statsReport = `📈 **YOUR AVERAGES (Last 7 Days)** 📈\n\n`;
+                    statsReport += `Days Active: ${uniqueDays}/7\n`;
+                    statsReport += `🔥 Avg Daily Calories: ${avgCals}\n\n`;
+                    statsReport += `*(Consistency is key!)*`;
                 } catch (error) {
                     console.error("");
                 }
