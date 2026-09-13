@@ -163,8 +163,11 @@ async function handleText(messageObj) {
                     statsReport += `Days Active: ${uniqueDays}/7\n`;
                     statsReport += `🔥 Avg Daily Calories: ${avgCals}\n\n`;
                     statsReport += `*(Consistency is key!)*`;
+
+                    return sendMessage(messageObj, statsReport);
                 } catch (error) {
-                    console.error("");
+                    console.error("Stats error:", error);
+                    return sendMessage(messageObj, "Analytics engine overheated");
                 }
 
             default:
