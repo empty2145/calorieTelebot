@@ -137,7 +137,7 @@ async function handleText(messageObj) {
             case "stats":
                 //weekly stats average
                 const startOfStats = new Date();
-                startOfStats.setDate(startOfWeek.getDate() - 7 );
+                startOfStats.setDate(startOfStats.getDate() - 7 );
                 startOfStats.setHours(0, 0, 0, 0);
 
                 try {
