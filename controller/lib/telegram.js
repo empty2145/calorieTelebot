@@ -58,7 +58,7 @@ async function handleText(messageObj) {
                         return sendMessage(messageObj, "You haven't logged any meals today! Send me a food picture to get started. 📸");
                     }
 
-                    let totalCals = 0, totalPro, totalFat, totalCarbs = 0;
+                    let totalCals = 0, totalPro = 0, totalFat = 0, totalCarbs = 0;
                     todaysMeals.forEach(meal => {
                         totalCals += meal.grandTotals.calories
                         totalPro += meal.grandTotals.protein;
