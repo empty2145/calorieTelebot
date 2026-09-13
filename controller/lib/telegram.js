@@ -108,7 +108,7 @@ async function handleText(messageObj) {
                         timestamp: { $gte: startOfWeek, $lte: endOfWeek }
                     })
 
-                    if(weekMeals.length === 0 ) {
+                    if (weekMeals.length === 0 ) {
                         return sendMessage(messageObj, "You haven't logged any meals this week! Send me a food picture to get started. 📸");
                     }
 
@@ -120,7 +120,7 @@ async function handleText(messageObj) {
                         weekCarbs += meal.grandTotals.carbs;
                     });
 
-                    let weekReport = `📊 **YOUR DAILY TRACKER** 📊\n\n`;
+                    let weekReport = `📊 **YOUR WEEKLY TRACKER** 📊\n\n`;
                     weekReport += `Meals Logged: ${weekMeals.length}\n`;
                     weekReport += `🔥 Calories: ${weekCals}\n`;
                     weekReport += `🥩 Protein: ${weekPro}g\n`;
@@ -131,6 +131,34 @@ async function handleText(messageObj) {
                 } catch (error) {
                     console.error("Week error:", error);
                     return sendMessage(messageObj, "Failed to pull the weekly records.");
+                }
+                
+            // thanos
+            case "stats":
+                //weekly stats average
+                const startOfStats = new Date();
+                startOfStats.setDate(startOfWeek.getDate() - 7 );
+                startOfStats.setHours(0, 0, 0, 0);
+
+                try {
+                    const statsMeals = await Meal.find({
+                        userId: messageObj.from.id,
+                        timestamp: { $gte: startOfStats, $lte: new Date() }
+                    });
+
+                    if (statsMeals.length === 0) {
+                        return sendMessage(messageObj, "Not enough data for stats yet! Keep logging. 📊");
+                    }
+
+                    let totalStatsCals = 0;
+                    statsMeals.forEach(meal => {
+                        totalStatsCals += meal.grandTotals.calories;
+                    });
+
+                    //avgs
+                    const uniqueDays = new Set(statsMeals.map(meal => meal.timestamp.toDateString())).size;
+                } catch (error) {
+                    console.error("");
                 }
 
             default:
