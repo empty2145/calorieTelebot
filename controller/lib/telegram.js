@@ -36,11 +36,13 @@ async function handleText(messageObj) {
     if (messageText.charAt(0) === "/") {
         const command = messageText.substr(1);
         switch (command) {
+            // intro
             case "start":
                 return sendMessage(
                     messageObj,
                     "Hi! I am the ZeRoCalorie bot. Send me a photo of your food to track macros! 📸"
                 );
+            // teto calories of the day
             case "today":
                 const startOfDay =new Date();
                 startOfDay.setHours(0, 0, 0, 0);
@@ -80,18 +82,57 @@ async function handleText(messageObj) {
                     return sendMessage(messageObj, "Oops, the database train got stuck.");
                 }
             
+            // BITES ZA DASTO
             case "undo":
                 try {
                     const deletedMeal = await Meal.findOneAndDelete({userId: messageObj.from.id}).sort({ timestamp: -1 });
                     if (!deletedMeal) {
                         return sendMessage(messageObj, "You don't have any meals saved to undo! 🤷‍♂️")
                     }
-                    return sendMessage(messageObj, `⏪ **Undo Successful!**\nErased ${deletedMeal.grandTotals.calories} calories from your history.`)
+                    return sendMessage(messageObj, `⏪ **Undo Successful!**\nErased ${deletedMeal.grandTotals.calories} calories from your history.`);
 
                 } catch (error) {
                     console.error("Undo error:", error);
                     return sendMessage(messageObj, "Oops, the undoing failed. Try again.");
                 }
+            // miku word of the week
+            case "week":
+                const startOfWeek = new Date();
+                startOfWeek.setDate(startOfWeek.getDate() - 7 );
+                startOfWeek.setHours(0, 0, 0, 0);
+                const endOfWeek = new Date();
+
+                try {
+                    const weekMeals = await Meal.find({
+                        userId: messageObj.from.id,
+                        timestamp: { $gte: startOfWeek, $lte: endOfWeek }
+                    })
+
+                    if(weekMeals.length === 0 ) {
+                        return sendMessage(messageObj, "You haven't logged any meals this week! Send me a food picture to get started. 📸");
+                    }
+
+                    let weekCals = 0, weekPro = 0, weekFat = 0, weekCarbs = 0;
+                    weekMeals.forEach(meal => {
+                        weekCals += meal.grandTotals.calories
+                        weekPro += meal.grandTotals.protein;
+                        weekFat += meal.grandTotals.fat;
+                        weekCarbs += meal.grandTotals.carbs;
+                    });
+
+                    let weekReport = `📊 **YOUR DAILY TRACKER** 📊\n\n`;
+                    weekReport += `Meals Logged: ${weekMeals.length}\n`;
+                    weekReport += `🔥 Calories: ${weekCals}\n`;
+                    weekReport += `🥩 Protein: ${weekPro}g\n`;
+                    weekReport += `🥑 Fat: ${weekFat}g\n`;
+                    weekReport += `🍞 Carbs: ${weekCarbs}g\n`;
+
+                    return sendMessage(messageObj, weekReport);
+                } catch (error) {
+                    console.error("Week error:", error);
+                    return sendMessage(messageObj, "Failed to pull the weekly records.");
+                }
+
             default:
                 return sendMessage(messageObj, "Hey hi, I don't know that command")
         }
