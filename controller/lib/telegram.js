@@ -79,6 +79,19 @@ async function handleText(messageObj) {
                     console.error("Database error:", error);
                     return sendMessage(messageObj, "Oops, the database train got stuck.");
                 }
+            
+            case "undo":
+                try {
+                    const deletedMeal = await Meal.findOneAndDelete({userId: messageObj.from.id}).sort({ timestamp: -1 });
+                    if (!deletedMeal) {
+                        return sendMessage(messageObj, "You don't have any meals saved to undo! 🤷‍♂️")
+                    }
+                    return sendMessage(messageObj, `⏪ **Undo Successful!**\nErased ${deletedMeal.grandTotals.calories} calories from your history.`)
+
+                } catch (error) {
+                    console.error("Undo error:", error);
+                    return sendMessage(messageObj, "Oops, the undoing failed. Try again.");
+                }
             default:
                 return sendMessage(messageObj, "Hey hi, I don't know that command")
         }
