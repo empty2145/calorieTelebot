@@ -9,7 +9,7 @@ const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
 const axiosInstance = getAxiosInstance();
 
 function getFile(fileId) {
-    return axiosInstance.get("getFile", { params: { file_id: fileId}})
+    return axiosInstance.get("getFile", { file_id: fileId})
 }
 
 async function sendMessage(messageObj, messageText) {
