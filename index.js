@@ -9,11 +9,11 @@ const { handler } = require("./controller/index");
 const app = express();
 app.use(express.json());
 
-app.post("/*splat", async (req, res) => {
+app.post("/", async (req, res) => {
     console.log(req.body);
     res.send(await handler(req));
 });
-app.get("/*splat", async (req, res) => {
+app.get("/", async (req, res) => {
     res.send(await handler(req));
 });
 app.listen(PORT, function (err) {
