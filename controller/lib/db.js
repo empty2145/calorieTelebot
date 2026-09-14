@@ -12,8 +12,13 @@ const mealSchema = new mongoose.Schema({
     },
     foods: Array
 });
-
 const Meal = mongoose.model('Meal', mealSchema);
+
+const userSchema = new mongoose.Schema({
+    userId: { type: Number, required: true, unique: true },
+    calorieGoal: { type: Number, required: true }
+});
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 async function connectDB() {
     try {
@@ -32,4 +37,4 @@ async function connectDB() {
     }
 };
 
-module.exports = { connectDB, Meal };
+module.exports = { connectDB, Meal, User };
