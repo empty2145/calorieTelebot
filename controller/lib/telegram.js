@@ -14,7 +14,7 @@ function getFile(fileId) {
 
 async function sendMessage(messageObj, messageText) {
     try{
-        return axiosInstance.post("sendMessage", {
+        return await axiosInstance.post("sendMessage", {
             chat_id: messageObj.chat.id,
             text: messageText,
         })
