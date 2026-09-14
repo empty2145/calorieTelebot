@@ -170,6 +170,26 @@ async function handleText(messageObj) {
                     return sendMessage(messageObj, "Analytics engine overheated");
                 }
 
+            case "setgoal":
+                const parts = messageObj.text.split(" ");
+                const goalAmount = parseInt(parts[1]);
+
+                if (isNaN(goalAmount) || goalAmount <= 0) {
+                    return sendMessage(messageObj, "⚠️ Please provide a valid number! Example: `/setgoal 2500`")
+                }
+
+                try {
+                    await User.findOneAndUpdate(
+                        { userId: messageObj.from.id },
+                        { calorieGoal: goalAmount },
+                        { upsert: true, new: true }
+                    );
+                    return sendMessage(messageObj, `🎯 **Goal Secured!**\nYour new daily target is set to ${goalAmount} calories.`)
+                } catch (error) {
+                    console.error("Setgoal error:", error);
+                    return sendMessage(messageObj, "Failed to save your goal to the vault.");
+                }
+
             default:
                 return sendMessage(messageObj, "Hey hi, I don't know that command")
         }
