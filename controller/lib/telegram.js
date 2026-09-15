@@ -49,6 +49,21 @@ async function handleText(messageObj) {
 
                 const endOfDay = new Date();
                 endOfDay.setHours(23, 59, 59, 999);
+                try {
+                    const [userProfile, todayMeals] = await Promise.all([
+                        User.findOne({
+
+                        }),
+                        Meal.find({
+                            userId: messageObj.from.id,
+                            timestamp: { $gte: startOfDay, $lte: endOfDay }
+                        })
+                    ]); 
+                } catch (error) {
+                    console.error("Today command error:", error);
+                    return sendMessage(messageObj, "⚠️ Failed to access the database.");
+                }
+
 
                 try {
                     const todaysMeals = await Meal.find({
