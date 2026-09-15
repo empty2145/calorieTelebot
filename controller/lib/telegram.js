@@ -49,6 +49,7 @@ async function handleText(messageObj) {
 
                 const endOfDay = new Date();
                 endOfDay.setHours(23, 59, 59, 999);
+
                 try {
                     const [userProfile, todayMeals] = await Promise.all([
                         User.findOne({userId: messageObj.from.id}),
@@ -57,24 +58,53 @@ async function handleText(messageObj) {
                             timestamp: { $gte: startOfDay, $lte: endOfDay }
                         })
                     ]);
-
+                    /*
                     const totaCals = todayMeals.reduce((total, currentMeal) => total + currentMeal.calories, 0)
                     const dailyGoal = userProfile?.calorieGoal || 2000;
                     const caloriesLeft = dailyGoal - totaCals;
+                    */
+                    let totalCals = 0, totalPro = 0, totalFat = 0, totalCarbs = 0;
 
+                    todaysMeals.forEach(meal => {
+                        totalCals += meal.grandTotals.calories || 0;
+                        totalPro += meal.grandTotals.protein || 0;
+                        totalFat += meal.grandTotals.fat || 0;
+                        totalCarbs += meal.grandTotals.carbs || 0;
+                    });
+
+                    const dailyGoal = userProfile?.calorieGoal || 2000;
+                    const caloriesLeft = dailyGoal - totalCals;
+
+                    /*
                     const replyText = `📊 **Today's Summary**\n` +
                     `🎯 Goal: ${dailyGoal} kcal\n` +
                     `🔥 Eaten: ${totaCals} kcal\n` +
                     `📉 Remaining: ${caloriesLeft} kcal`;
-                    return sendMessage(messageObj, replyText);
+                    */
 
+                    let report = `📊 **YOUR DAILY TRACKER** 📊\n\n`;
+                    report += `🎯 Goal: ${dailyGoal} kcal\n`;
+                    report += `🔥 Calories: ${totalCals}\n`;
+                    report += `📉 Remaining: ${caloriesLeft} kcal\n\n`;
+                    report += `🥩 Protein: ${totalPro}g\n`;
+                    report += `🥑 Fat: ${totalFat}g\n`;
+                    report += `🍞 Carbs: ${totalCarbs}g\n`;
+
+                    if (todaysMeals.length === 0) {
+                        return sendMessage(messageObj, "You haven't logged any meals today! Send me a food picture to get started. 📸");
+                    } else {
+                        report += `*(Based on ${todaysMeals.length} logged meals)*`;
+                    }
+                    return sendMessage(messageObj, report);
                 } catch (error) {
                     console.error("Today command error:", error);
                     return sendMessage(messageObj, "⚠️ Failed to access the database.");
                 }
+                break;
 
-
+                /*
                 try {
+                    
                     const todaysMeals = await Meal.find({
                         userId: messageObj.from.id,
                         timestamp: { $gte: startOfDay, $lte: endOfDay }
@@ -83,7 +113,7 @@ async function handleText(messageObj) {
                     if (todaysMeals.length === 0) {
                         return sendMessage(messageObj, "You haven't logged any meals today! Send me a food picture to get started. 📸");
                     }
-
+                    
                     let totalCals = 0, totalPro = 0, totalFat = 0, totalCarbs = 0;
                     todaysMeals.forEach(meal => {
                         totalCals += meal.grandTotals.calories
@@ -91,6 +121,7 @@ async function handleText(messageObj) {
                         totalFat += meal.grandTotals.fat;
                         totalCarbs += meal.grandTotals.carbs;
                     });
+                    
 
                     let report = `📊 **YOUR DAILY TRACKER** 📊\n\n`;
                     report += `Meals Logged: ${todaysMeals.length}\n`;
@@ -105,6 +136,7 @@ async function handleText(messageObj) {
                     console.error("Database error:", error);
                     return sendMessage(messageObj, "Oops, the database train got stuck.");
                 }
+                */
             
             // BITES ZA DASTO
             case "undo":
