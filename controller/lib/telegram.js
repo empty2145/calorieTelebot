@@ -51,7 +51,7 @@ async function handleText(messageObj) {
                 endOfDay.setHours(23, 59, 59, 999);
 
                 try {
-                    const [userProfile, todayMeals] = await Promise.all([
+                    const [userProfile, todaysMeals] = await Promise.all([
                         User.findOne({userId: messageObj.from.id}),
                         Meal.find({
                             userId: messageObj.from.id,
