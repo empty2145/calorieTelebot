@@ -37,11 +37,24 @@ async function handleText(messageObj) {
         const command = messageText[0].substr(1).toLowerCase();
         switch (command) {
             // intro
+            case "help":
+            case "start": 
+                const helpText = `🍏 **Welcome to ZeRoCalorie!** 🍎\n\n` +
+                                 `Here is how to track your macros:\n\n` +
+                                 `📸 **Log a Meal:** Send a picture or type out your meal to log it.\n` +
+                                 `🎯 **/setgoal [number]:** Set your daily calorie target (e.g., /setgoal 2000).\n` +
+                                 `📊 **/today:** View your live daily tracker and macro breakdown.\n\n` +
+                                 `*(Note: Your daily tracker automatically resets at midnight!)*`;
+                
+                return sendMessage(messageObj, helpText);
+            
             case "start":
                 return sendMessage(
                     messageObj,
                     "Hi! I am the ZeRoCalorie bot. Send me a photo of your food to track macros! 📸"
                 );
+            
+            
             // teto calories of the day
             case "today":
                 const startOfDay =new Date();
