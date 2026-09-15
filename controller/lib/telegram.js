@@ -44,6 +44,7 @@ async function handleText(messageObj) {
                                  `📸 **Log a Meal:** Send a picture or type out your meal to log it.\n` +
                                  `🎯 **/setgoal [number]:** Set your daily calorie target (e.g., /setgoal 2000).\n` +
                                  `📊 **/today:** View your live daily tracker and macro breakdown.\n\n` +
+                                 `all commands: /start /help /today /undo /stats /week /setgoal. \n\n` +
                                  `*(Note: Your daily tracker automatically resets at midnight!)*`;
                 
                 return sendMessage(messageObj, helpText);
