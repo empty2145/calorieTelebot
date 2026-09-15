@@ -51,14 +51,17 @@ async function handleText(messageObj) {
                 endOfDay.setHours(23, 59, 59, 999);
                 try {
                     const [userProfile, todayMeals] = await Promise.all([
-                        User.findOne({
-
-                        }),
+                        User.findOne({userId: messageObj.from.id}),
                         Meal.find({
                             userId: messageObj.from.id,
                             timestamp: { $gte: startOfDay, $lte: endOfDay }
                         })
-                    ]); 
+                    ]);
+
+                    const totaCals = todayMeals.reduce((total, currentMeal) => total + currentMeal.calories, 0)
+                    const dailyGoal = userProfile?.calorieGoal || 2000;
+                    const caloriesLeft = dailyGoal - totaCals;
+
                 } catch (error) {
                     console.error("Today command error:", error);
                     return sendMessage(messageObj, "⚠️ Failed to access the database.");
