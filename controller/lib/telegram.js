@@ -2,7 +2,7 @@
 const { getAxiosInstance } = require('./axios');
 const { errorHandler, circumcizeMessage } = require("./helpers");
 const { analyzeImageWithGemini, classifyAndRefineFoods, estimatePortionsAndNutrition, lookupNutritionForItems } = require("./llm");
-const { Meal } = require('./db');
+const { Meal, User } = require('./db');
 
 const MY_TOKEN = process.env.MY_TOKEN
 const BASE_URL = "https://api.telegram.org/bot" + MY_TOKEN;
