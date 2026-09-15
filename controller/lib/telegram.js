@@ -31,10 +31,10 @@ async function handleMessage(messageObj) {
 }
 
 async function handleText(messageObj) {
-    const messageText = messageObj.text || "";
+    const messageText = messageObj.text.split(" ") || "";
 
     if (messageText.charAt(0) === "/") {
-        const command = messageText.substr(1);
+        const command = messageText[0].substr(1).toLowerCase();
         switch (command) {
             // intro
             case "start":
