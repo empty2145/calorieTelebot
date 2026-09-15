@@ -33,7 +33,7 @@ async function handleMessage(messageObj) {
 async function handleText(messageObj) {
     const messageText = messageObj.text.split(" ") || "";
 
-    if (messageText.charAt(0) === "/") {
+    if (messageText[0].charAt(0) === "/") {
         const command = messageText[0].substr(1).toLowerCase();
         switch (command) {
             // intro
