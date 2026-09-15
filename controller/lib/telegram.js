@@ -62,6 +62,12 @@ async function handleText(messageObj) {
                     const dailyGoal = userProfile?.calorieGoal || 2000;
                     const caloriesLeft = dailyGoal - totaCals;
 
+                    const replyText = `📊 **Today's Summary**\n` +
+                    `🎯 Goal: ${dailyGoal} kcal\n` +
+                    `🔥 Eaten: ${totaCals} kcal\n` +
+                    `📉 Remaining: ${caloriesLeft} kcal`;
+                    return sendMessage(messageObj, replyText);
+
                 } catch (error) {
                     console.error("Today command error:", error);
                     return sendMessage(messageObj, "⚠️ Failed to access the database.");
